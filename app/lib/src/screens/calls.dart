@@ -77,12 +77,21 @@ class _CallsScreenState extends State<CallsScreen> {
             FilledButton.icon(onPressed: _call, icon: const Icon(Icons.call), label: Text(s.callButton)),
             if (widget.state.video) ...[
               const SizedBox(width: 8),
-              OutlinedButton.icon(
-                key: const Key('video-call'),
-                onPressed: () => _call(video: true),
-                icon: const Icon(Icons.videocam),
-                label: Text(s.callVideoButton),
-              ),
+              // on a phone's width the address keeps its room: the camera alone says what it is
+              if (MediaQuery.sizeOf(context).width < 600)
+                IconButton.outlined(
+                  key: const Key('video-call'),
+                  tooltip: s.callVideoButton,
+                  onPressed: () => _call(video: true),
+                  icon: const Icon(Icons.videocam),
+                )
+              else
+                OutlinedButton.icon(
+                  key: const Key('video-call'),
+                  onPressed: () => _call(video: true),
+                  icon: const Icon(Icons.videocam),
+                  label: Text(s.callVideoButton),
+                ),
             ],
           ],
         ),
